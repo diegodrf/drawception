@@ -52,7 +52,7 @@ def scrapy(player):
     ### Preparação da lista que armazenará os dados que serão passados para o JSON do usuário
     images_list = []
 
-    ### Cria uma pasta para cada usuário, caso não exista
+    ### Cria uma pasta para cada usuário, caso ela ainda não exista
     ### O nome do usuário é passado para o filtro de caracters especiais
     player_dir = os.path.join(dir_name, clean(str(player.text)))
     os.makedirs(player_dir, exist_ok=True)
@@ -65,7 +65,7 @@ def scrapy(player):
             profile = requests.get(base_url + player.get('href') + 'drawings/{}/'.format(page))
             profile.raise_for_status()
 
-            ### Realiza o parsing da página do usuário, caso ocorra algum erro, passa para a pŕoxima etapa.
+            ### Realiza o parsing da página do usuário. Caso ocorra algum erro, passa para a pŕoxima etapa.
             try:
                 soup = BeautifulSoup(profile.text, 'html.parser')
 
@@ -90,7 +90,7 @@ def scrapy(player):
 
                         print('finishing {}'.format(image_name))
 
-                    ### Captura as informações do jogo onde a imagem foi criada, caso ocorra algum erro,
+                    ### Captura as informações do jogo onde a imagem foi criada. Caso ocorra algum erro,
                     ### passa para a pŕoxima etapa.
                     try:
                         game_info = requests.get(game_url)
@@ -171,7 +171,7 @@ if __name__ == '__main__':
     ### Captura os 50 primeiros "Most Followed all time" (Top players nao existe)
     for player in players[10:]:
 
-        ### Inicia a coleta dos dados através iniciando uma thread por usuário a ser coletado.
+        ### Realiza a busca dos dados através da função scrapy utilizando uma thread por usuário a ser coletado.
         ### O número de threads permitido será 2x a quantidade de núcleos da cpu
         ### Ao atingir o número limite, o programa para de criar novas threads e aguarda a finalização das vigentes
         ### Para evitar sobrecarga no sistema e no site.
