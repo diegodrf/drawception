@@ -54,7 +54,7 @@ def scrapy(player):
 
     ### Cria uma pasta para cada usuário, caso não exista
     ### O nome do usuário é passado para o filtro de caracters especiais
-    player_dir = os.path.join(dir_name, clean(str(player.text)).replace(' ', '_'))
+    player_dir = os.path.join(dir_name, clean(str(player.text)))
     os.makedirs(player_dir, exist_ok=True)
 
     ### Itera sobre as duas primeiras páginas de desenhos do usuário, totalizando assim 36 desenhos, caso existam
@@ -133,7 +133,7 @@ def scrapy(player):
                               'images': images_list})
 
     ### Armazena o JSON com as informações do usuário em seu diretório, junto com seus desenhos.
-    with open(os.path.join(player_dir, '{}.json'.format(str(player.text).replace(' ', '_'))), 'w') as j:
+    with open(os.path.join(player_dir, '{}.json'.format(clean(str(player.text)))), 'w') as j:
         j.write(player_json)
 
 
